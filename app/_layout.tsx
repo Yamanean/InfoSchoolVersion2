@@ -1,39 +1,23 @@
-import { DarkTheme, DefaultTheme, ThemeProvider } from '@react-navigation/native';
-import { useFonts } from 'expo-font';
-import { Stack } from 'expo-router';
-import * as SplashScreen from 'expo-splash-screen';
-import { StatusBar } from 'expo-status-bar';
-import { useEffect } from 'react';
-import 'react-native-reanimated';
+import React from "react";
+import { createDrawerNavigator } from "@react-navigation/drawer";
+import HomeScreen from "./index"; 
+import Agenda from "./Agenda";
+import Avisos from "./Avisos";
+import Boletim from "./Boletim";
+import Contatos from "./Contatos";
 
-import { useColorScheme } from '@/hooks/useColorScheme';
 
-// Prevent the splash screen from auto-hiding before asset loading is complete.
-SplashScreen.preventAutoHideAsync();
+const Drawer = createDrawerNavigator();
 
-export default function RootLayout() {
-  const colorScheme = useColorScheme();
-  const [loaded] = useFonts({
-    SpaceMono: require('../assets/fonts/SpaceMono-Regular.ttf'),
-  });
-
-  useEffect(() => {
-    if (loaded) {
-      SplashScreen.hideAsync();
-    }
-  }, [loaded]);
-
-  if (!loaded) {
-    return null;
-  }
-
+// Componente de layout de navegação
+export default function Layout() {
   return (
-    <ThemeProvider value={colorScheme === 'dark' ? DarkTheme : DefaultTheme}>
-      <Stack>
-        <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
-        <Stack.Screen name="+not-found" />
-      </Stack>
-      <StatusBar style="auto" />
-    </ThemeProvider>
+    <Drawer.Navigator initialRouteName="HomeScreen">
+      <Drawer.Screen name="Página Inicial" component={HomeScreen} />
+      <Drawer.Screen name="Agenda" component={Agenda} />
+      <Drawer.Screen name="Avisos" component={Avisos} />
+      <Drawer.Screen name="Boletim" component={Boletim} />
+      <Drawer.Screen name="Contatos" component={Contatos} />
+    </Drawer.Navigator>
   );
 }
